@@ -1,0 +1,109 @@
+body {
+    background-color: aqua;
+    width: 90vw;
+    height: 90vh;
+    display: flex;
+    justify-content: center; /* Centra horizontalmente */
+    align-items: center;     /* Centra verticalmente */
+}
+
+.contenedor-grande {
+    background-color: yellow;
+    padding: 15px;
+}
+
+.contenedor {
+    background-color: violet;
+    display: flex;
+    flex-direction: column;
+}
+
+.fecha {
+    background-color: red;
+    width: 38vw;
+    display: flex;
+    justify-content: space-between;
+    padding: 10px;
+}
+
+.fecha-numero {
+    display: flex;
+    align-items: center;
+    background-color: cyan;
+    width: 10vw;
+    text-align: center;
+}
+
+.fecha-caja1{
+    display: flex;
+    background-color: orange;
+    width: 10vw;
+    justify-content: center;
+}
+
+.fecha-caja1-datos {
+    background-color: chartreuse;
+    flex: 1;
+    text-align: center;
+    padding: 5px;
+}
+
+.fecha-caja2{
+    display: flex;
+    background-color: pink;
+    width: 10vw;
+}
+
+.datos {
+    background-color: green;
+    width: 38vw;
+    margin-top: 10px;
+}
+
+.datos div {
+    padding: 10px;
+}
+
+.detalles {
+    background-color:aqua;
+    height: 55vh;
+    width: 38vw;
+    margin-top: 10px;
+}
+
+.bloque-central {
+    display: flex;
+}
+
+.hijo-bloque-central {
+    flex: 1;
+    text-align: center;
+    padding: 10px;
+}
+
+.hijo-bloque-central-cantidad {
+    flex: none;
+    width: 5vw;
+}
+
+.hijo-bloque-central-valor-total {
+    flex: none;
+    width: 10vw;
+}
+
+.celdas {
+    margin-top: 10px;
+    border: 1px solid black;
+}
+
+.bloque-final {
+    display: flex;
+    justify-content: space-between;
+    margin-right: 10px;
+    margin-left: 10px;
+    border: 1px solid black;
+}
+
+.bloque-final-hijo {
+    margin: 5px;
+}

@@ -1,0 +1,63 @@
+body {
+    background-color: #011a20;
+    width: 92vw;
+}
+
+.caja1 {
+    display: flex;
+    font-size: 30px;
+}
+
+.caja1 p {
+    margin-top: 0;
+    margin-bottom: 0; /* Opcional: para que no empujen la caja verde por debajo */
+}
+
+.centro-arriba {
+    display: flex;
+    justify-content: space-between;
+    height: 110px;
+}
+
+.caja-centro-arriba{
+    background-color: #0a2e38;
+    width: 305px;
+    padding: 10px;
+}
+
+.caja-centro-arriba > p {
+    margin-bottom: 0;
+}
+
+.centro-abajo {
+    background-color: #0a2e38;
+    margin-top: 10px;
+}
+
+.barra1 {
+    display: flex;
+    justify-content: space-between;
+}
+
+.barras-selected {
+    display: flex;
+    padding: 10px;
+}
+
+.barras {
+    display: flex;
+    justify-content: space-between;
+    padding-inline: 10px;
+}
+
+.ultima-fac {
+    padding: 10px;
+}
+
+select {
+  background-color: #0a2e38;
+  color: white;
+  border: 1px solid #444; /* Un borde suave para que no se pierda en el fondo */
+  padding: 5px;
+  border-radius: 4px;
+}

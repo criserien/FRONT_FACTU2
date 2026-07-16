@@ -1,0 +1,10 @@
+/* En tu styles.css global */
+body {
+    margin: 0;
+    padding: 0;
+    background-color: #011a20; /* Solo el fondo general */
+}
+
+* {
+    box-sizing: border-box; /* Esto sí es buena práctica en el selector universal */
+}

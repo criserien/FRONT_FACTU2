@@ -1,0 +1,37 @@
+body {
+    width: 92vw;
+    background-color: aqua;
+}
+
+img {
+    width: 100%;
+    max-width: 200px;
+    height: auto;
+    object-fit: cover; /* Mantiene la proporción sin deformar */
+}
+
+.titulo {
+    text-align: center;
+}
+
+.fila-1 {
+    display: flex;
+    justify-content: space-between;
+}
+
+.fila-2 {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 50px;
+}
+
+.fila-3 {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 50px;
+}
+
+.cajas {
+    background-color: burlywood;
+    font-size: 20px;
+}

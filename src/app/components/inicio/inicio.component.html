@@ -1,0 +1,117 @@
+<body>
+  <div class="centro-arriba">
+    <div class="caja-centro-arriba">
+      <p style="color: white;">Total Facturas Almacenadas</p>
+      <div class="caja1">
+        <p style="color: white;">{{ totalFacturas }}</p>
+        <p style="color: white;"></p>
+      </div>
+    </div>
+    <div class="caja-centro-arriba">
+      <p style="color: white;">Total Facturas Almacenadas</p>
+      <div class="caja1">
+        <p style="color: white;">{{ premios[0] }}</p>
+        <p style="color: white;">flecha</p>
+      </div>
+    </div>
+    <div class="caja-centro-arriba">
+      <p style="color: white;">Total Facturas Almacenadas</p>
+      <div class="caja1">
+        <p style="color: white;">{{ premios[1] }}</p>
+        <p style="color: white;">flecha</p>
+      </div>
+    </div>
+    <div class="caja-centro-arriba">
+      <p style="color: white;">Total Facturas Almacenadas</p>
+      <div class="caja1">
+        <p style="color: white;">{{ premios[2] }}</p>
+        <p style="color: white;">flecha</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="centro-abajo">
+    <div class="barra1">
+      <div style="color: white;" class="ultima-fac">CLIENTES CERCANOS AL PREMIO</div>
+      <div class="barras-selected">
+        <div>
+          <select name="cliente">
+            <option value="">Cliente</option>
+            <option value="1">Juan Pérez</option>
+            <option value="2">María García</option>
+          </select>
+        </div>
+        <div>
+          <select name="cliente">
+            <option value="">Cliente</option>
+            <option value="1">Juan Pérez</option>
+            <option value="2">María García</option>
+          </select>
+        </div>
+        <div>
+          <select name="cliente">
+            <option value="">Cliente</option>
+            <option value="1">Juan Pérez</option>
+            <option value="2">María García</option>
+          </select>
+        </div>
+      </div>
+    </div>
+    <div class="barras">
+      <p style="color: white;">LAURITA<span style="visibility: hidden;">_____</span></p>
+      <p style="color: white;">RACHA DE: </p>
+      <p style="color: white;">{{ premios[0] }}</p>
+      <p style="color: white;">PEDIDOS</p>
+      <p style="color: white;">FALTAN : </p>
+      <p style="color: white;">¡¡ {{ 10 - premios[0] }} DIAS !!</p>
+    </div>
+    <div class="barras">
+      <p style="color: white;">SEÑOR@ TAXI</p>
+      <p style="color: white;">RACHA DE: </p>
+      <p style="color: white;">{{ premios[2] }}</p>
+      <p style="color: white;">PEDIDOS</p>
+      <p style="color: white;">FALTAN : </p>
+      <p style="color: white;">¡¡ {{ 10 - premios[2] }} DIAS !!</p>
+    </div>
+    <div class="barras">
+      <p style="color: white;">SEÑORA YENI</p>
+      <p style="color: white;">RACHA DE: </p>
+      <p style="color: white;">{{ premios[3] }}</p>
+      <p style="color: white;">PEDIDOS</p>
+      <p style="color: white;">FALTAN : </p>
+      <p style="color: white;">¡¡ {{ 10 - premios[3] }} DIAS !!</p>
+    </div>
+    <div class="barras">
+      <p style="color: white;">PROFE<span style="visibility: hidden;">_______</span></p>
+      <p style="color: white;">RACHA DE: </p>
+      <p style="color: white;">{{ premios[1] }}</p>
+      <p style="color: white;">PEDIDOS</p>
+      <p style="color: white;">FALTAN : </p>
+      <p style="color: white;">¡¡ {{ 10 - premios[1] }} DIAS !!</p>
+    </div>
+    <div class="barras">
+      <p style="color: white;">ARTURO<span style="visibility: hidden;">_______</span></p>
+      <p style="color: white;">RACHA DE: </p>
+      <p style="color: white;">{{ premios[4] }}</p>
+      <p style="color: white;">PEDIDOS</p>
+      <p style="color: white;">FALTAN : </p>
+      <p style="color: white;">¡¡ {{ 10 - premios[4] }} DIAS !!</p>
+    </div>
+    <div class="barras">
+      <p style="color: white;">FABIAN SUCRE<span style="visibility: hidden;">_______</span></p>
+      <p style="color: white;">RACHA DE: </p>
+      <p style="color: white;">{{ premios[5] }}</p>
+      <p style="color: white;">PEDIDOS</p>
+      <p style="color: white;">FALTAN : </p>
+      <p style="color: white;">¡¡ {{ 10 - premios[5] }} DIAS !!</p>
+    </div>
+    <div class="barras">
+      <p style="color: white;">CUERVO<span style="visibility: hidden;">_______</span></p>
+      <p style="color: white;">RACHA DE: </p>
+      <p style="color: white;">{{ premios[6] }}</p>
+      <p style="color: white;">PEDIDOS</p>
+      <p style="color: white;">FALTAN : </p>
+      <p style="color: white;">¡¡ {{ 10 - premios[6] }} DIAS !!</p>
+    </div>
+  </div>
+</body>

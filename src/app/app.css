@@ -1,0 +1,22 @@
+* {
+    background-color: #021216;
+}
+
+.abajo {
+    background-color: #011a20;
+    display: flex;
+    align-items: stretch; /* Asegura que los hijos ocupen todo el alto */
+    margin: 0;
+    padding: 0;
+    height: 91vh;
+}
+
+.izquierda {
+    background-color: #0a2e38;
+}
+
+.centro {
+    background-color: #011a20;
+    margin-top: 10px;
+    margin-left: 10px;
+}

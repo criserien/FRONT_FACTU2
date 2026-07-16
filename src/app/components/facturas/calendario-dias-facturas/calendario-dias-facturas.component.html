@@ -1,0 +1,39 @@
+<body>
+  <div class="titulo-grande">FACTURAS : DIA {{diaRecibido}} DEL MES {{mesRecibido}} DE {{anioRecibido}}</div>
+
+  <div class="fila-1">
+    <!-- Iteramos directamente sobre la colección de facturas de manera segura -->
+    @for (f of factura; track f.id) {
+      <div class="cajas">
+        <div class="titulo">
+          <!-- Pasamos los datos del objeto actual 'f' de forma directa al state -->
+          <a routerLink="/formato-factura" 
+             [state]="{ 
+                dia: diaRecibido, 
+                mes: mesRecibido, 
+                anio: anioRecibido, 
+                numFac: f.numero,
+                client: f.cliente,
+                direcTel: f.direc_tel,
+                cantidad: f.cantidad,
+                producto: f.producto,
+                total: f.total,
+                total_mayor: f.total_mayor,
+                id: f.id,
+                detallesOpcionales: f.detallesOpcionales
+             }">
+             FACTURA NUMERO : {{ f.numero }}
+          </a>
+          <div>{{ f.cantidad }} {{ f.producto }}</div>
+          <div>{{ f.detallesOpcionales?.factura2?.cantidad }} {{ f.detallesOpcionales?.factura2?.producto }}</div>
+          <div>{{ f.detallesOpcionales?.factura3?.cantidad }} {{ f.detallesOpcionales?.factura3?.producto }}</div>
+          <div>{{ f.detallesOpcionales?.factura4?.cantidad }} {{ f.detallesOpcionales?.factura4?.producto }}</div>
+          <div>{{ f.detallesOpcionales?.factura5?.cantidad }} {{ f.detallesOpcionales?.factura5?.producto }}</div>
+        </div>
+        <img src="factu.jpg" alt="Factura"/>
+      </div>
+    } @empty {
+      <p>No se encontraron facturas registradas para este día.</p>
+    }
+  </div>
+</body>

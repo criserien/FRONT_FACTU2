@@ -1,0 +1,40 @@
+body {
+    width: 92vw;
+    background-color: aqua;
+}
+
+img {
+    width: 100%;
+    max-width: 200px;
+    height: auto;
+    object-fit: cover; /* Mantiene la proporción sin deformar */
+    margin-top: 10px;
+}
+
+.titulo {
+    text-align: center;
+}
+
+.titulo-grande {
+    text-align: center;
+    background-color: burlywood;
+    font-size: 20px;
+    padding: 10px;
+}
+
+.fila-1 {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 50px;
+    flex-wrap: wrap; /* Aquí ocurre la magia */
+    gap: 10px;       /* Opcional: para dejar espacio entre las cajas */
+}
+
+.cajas {
+    background-color: burlywood;
+    font-size: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 10px;
+}
