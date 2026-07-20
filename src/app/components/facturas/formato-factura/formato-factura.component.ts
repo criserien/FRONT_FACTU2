@@ -54,7 +54,7 @@ export class FormatoFacturaComponent implements OnInit {
   public factura8!: datosFactura2;
   public factura9!: datosFactura2;
 
-  private api = 'https://back-fac-elect.vercel.app/api';
+  private api = 'https://prueba1-eight-rho.vercel.app/api';
 
   constructor(
     private http: HttpClient,

@@ -2,38 +2,132 @@
   <div class="titulo-grande">FACTURAS : DIA {{diaRecibido}} DEL MES {{mesRecibido}} DE {{anioRecibido}}</div>
 
   <div class="fila-1">
-    <!-- Iteramos directamente sobre la colección de facturas de manera segura -->
     @for (f of factura; track f.id) {
       <div class="cajas">
         <div class="titulo">
-          <!-- Pasamos los datos del objeto actual 'f' de forma directa al state -->
           <a routerLink="/formato-factura" 
              [state]="{ 
-                dia: diaRecibido, 
-                mes: mesRecibido, 
-                anio: anioRecibido, 
-                numFac: f.numero,
-                client: f.cliente,
-                direcTel: f.direc_tel,
-                cantidad: f.cantidad,
-                producto: f.producto,
-                total: f.total,
-                total_mayor: f.total_mayor,
-                id: f.id,
-                detallesOpcionales: f.detallesOpcionales
+               dia: diaRecibido, 
+               mes: mesRecibido, 
+               anio: anioRecibido, 
+               numFac: f.numero,
+               client: f.cliente,
+               direcTel: f.direc_tel,
+               cantidad: f.cantidad,
+               producto: f.producto,
+               total: f.total,
+               total_mayor: f.total_mayor,
+               id: f.id,
+               detallesOpcionales: f.detallesOpcionales
              }">
              FACTURA NUMERO : {{ f.numero }}
           </a>
-          <div>{{ f.cantidad }} {{ f.producto }}</div>
-          <div>{{ f.detallesOpcionales?.factura2?.cantidad }} {{ f.detallesOpcionales?.factura2?.producto }}</div>
-          <div>{{ f.detallesOpcionales?.factura3?.cantidad }} {{ f.detallesOpcionales?.factura3?.producto }}</div>
-          <div>{{ f.detallesOpcionales?.factura4?.cantidad }} {{ f.detallesOpcionales?.factura4?.producto }}</div>
-          <div>{{ f.detallesOpcionales?.factura5?.cantidad }} {{ f.detallesOpcionales?.factura5?.producto }}</div>
+
+          <!-- Contenedor de Estados Persistentes en LocalStorage -->
+          <div class="contenedor-estados">
+            <div class="item-estado">
+              <span>TERMINADO</span>
+              <input type="checkbox" [(ngModel)]="f.terminado" (change)="guardarEstadoLocal(f)" />
+            </div>
+            <div class="item-estado">
+              <span>PAGO</span>
+              <input type="checkbox" [(ngModel)]="f.pago" (change)="guardarEstadoLocal(f)" />
+            </div>
+          </div>
+
+          <!-- Producto Principal (Factura 1) -->
+          <div class="control-input">
+            <span class="num-item">1.</span>
+            <input type="number" class="input-cant" [(ngModel)]="f.cantidad" placeholder="Cant." />
+            <textarea class="input-prod" [(ngModel)]="f.producto" placeholder="Descripción del producto..."></textarea>
+          </div>
+
+          <!-- Factura 2 -->
+          @if (f.detallesOpcionales?.factura2) {
+            <div class="control-input">
+              <span class="num-item">2.</span>
+              <input type="number" class="input-cant" [(ngModel)]="f.detallesOpcionales!.factura2!.cantidad" placeholder="Cant." />
+              <textarea class="input-prod" [(ngModel)]="f.detallesOpcionales!.factura2!.producto" placeholder="Descripción..."></textarea>
+            </div>
+          }
+          
+          <!-- Factura 3 -->
+          @if (f.detallesOpcionales?.factura3) {
+            <div class="control-input">
+              <span class="num-item">3.</span>
+              <input type="number" class="input-cant" [(ngModel)]="f.detallesOpcionales!.factura3!.cantidad" placeholder="Cant." />
+              <textarea class="input-prod" [(ngModel)]="f.detallesOpcionales!.factura3!.producto" placeholder="Descripción..."></textarea>
+            </div>
+          }
+
+          <!-- Factura 4 -->
+          @if (f.detallesOpcionales?.factura4) {
+            <div class="control-input">
+              <span class="num-item">4.</span>
+              <input type="number" class="input-cant" [(ngModel)]="f.detallesOpcionales!.factura4!.cantidad" placeholder="Cant." />
+              <textarea class="input-prod" [(ngModel)]="f.detallesOpcionales!.factura4!.producto" placeholder="Descripción..."></textarea>
+            </div>
+          }
+
+          <!-- Factura 5 -->
+          @if (f.detallesOpcionales?.factura5) {
+            <div class="control-input">
+              <span class="num-item">5.</span>
+              <input type="number" class="input-cant" [(ngModel)]="f.detallesOpcionales!.factura5!.cantidad" placeholder="Cant." />
+              <textarea class="input-prod" [(ngModel)]="f.detallesOpcionales!.factura5!.producto" placeholder="Descripción..."></textarea>
+            </div>
+          }
+
+          <!-- Factura 6 -->
+          @if (f.detallesOpcionales?.factura6) {
+            <div class="control-input">
+              <span class="num-item">6.</span>
+              <input type="number" class="input-cant" [(ngModel)]="f.detallesOpcionales!.factura6!.cantidad" placeholder="Cant." />
+              <textarea class="input-prod" [(ngModel)]="f.detallesOpcionales!.factura6!.producto" placeholder="Descripción..."></textarea>
+            </div>
+          }
+
+          <!-- Factura 7 -->
+          @if (f.detallesOpcionales?.factura7) {
+            <div class="control-input">
+              <span class="num-item">7.</span>
+              <input type="number" class="input-cant" [(ngModel)]="f.detallesOpcionales!.factura7!.cantidad" placeholder="Cant." />
+              <textarea class="input-prod" [(ngModel)]="f.detallesOpcionales!.factura7!.producto" placeholder="Descripción..."></textarea>
+            </div>
+          }
+
+          <!-- Factura 8 -->
+          @if (f.detallesOpcionales?.factura8) {
+            <div class="control-input">
+              <span class="num-item">8.</span>
+              <input type="number" class="input-cant" [(ngModel)]="f.detallesOpcionales!.factura8!.cantidad" placeholder="Cant." />
+              <textarea class="input-prod" [(ngModel)]="f.detallesOpcionales!.factura8!.producto" placeholder="Descripción..."></textarea>
+            </div>
+          }
+
+          <!-- Factura 9 -->
+          @if (f.detallesOpcionales?.factura9) {
+            <div class="control-input">
+              <span class="num-item">9.</span>
+              <input type="number" class="input-cant" [(ngModel)]="f.detallesOpcionales!.factura9!.cantidad" placeholder="Cant." />
+              <textarea class="input-prod" [(ngModel)]="f.detallesOpcionales!.factura9!.producto" placeholder="Descripción..."></textarea>
+            </div>
+          }
         </div>
+        
         <img src="factu.jpg" alt="Factura"/>
+
+        <button class="btn-actualizar" (click)="actualizarFactura(f)">
+          🔄 Guardar Cambios
+        </button>
+        <button class="btn-eliminar" (click)="eliminarFactura(f.id)">
+                Eliminar Factura
+            </button>
       </div>
     } @empty {
-      <p>No se encontraron facturas registradas para este día.</p>
+      <div class="no-facturas">
+        <p>No se encontraron facturas registradas para este día.</p>
+      </div>
     }
   </div>
 </body>
