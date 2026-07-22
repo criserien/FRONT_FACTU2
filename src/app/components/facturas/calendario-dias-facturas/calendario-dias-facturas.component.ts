@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Router, RouterLink } from '@angular/router';
 import { FormsModule } from '@angular/forms'; 
+import { CommonModule } from '@angular/common'; // 1. Importar CommonModule
 
 export interface datosFactura2 {
   id: number;
@@ -24,8 +25,8 @@ export interface datosFactura {
   cliente: string; 
   direc_tel: string;
   total_mayor: number;
-  terminado?: boolean; // Mapeado para los checkboxes locales
-  pago?: boolean;      // Mapeado para los checkboxes locales
+  terminado?: boolean;
+  pago?: boolean;
   detallesOpcionales?: {
     factura2: datosFactura2 | null;
     factura3: datosFactura2 | null;
@@ -47,7 +48,7 @@ interface RespuestaConteo {
   templateUrl: './calendario-dias-facturas.component.html',
   styleUrls: ['./calendario-dias-facturas.component.css'],
   standalone: true,
-  imports: [RouterLink, FormsModule]
+  imports: [RouterLink, FormsModule, CommonModule] // 2. Agregar CommonModule a los imports
 })
 export class CalendarioDiasFacturasComponent implements OnInit {
 
@@ -81,7 +82,6 @@ export class CalendarioDiasFacturasComponent implements OnInit {
 
     this.http.get<datosFactura[]>(urlAPI).subscribe({
       next: (respuesta) => {
-        // Al traer los datos mapeamos cada elemento para restaurar el estado desde LocalStorage
         this.factura = respuesta.map(f => {
           const estadoLocal = localStorage.getItem(`factura_${f.id}`);
           if (estadoLocal) {
@@ -94,7 +94,6 @@ export class CalendarioDiasFacturasComponent implements OnInit {
           }
           return f;
         });
-        console.log("Facturas cargadas con éxito y estados locales aplicados:", this.factura);
       },
       error: (error) => {
         console.error("Error al traer las facturas del día:", error);
@@ -117,13 +116,38 @@ export class CalendarioDiasFacturasComponent implements OnInit {
     });
   }
 
-  // Sincroniza instantáneamente el estado del checkbox al cambiar
   guardarEstadoLocal(f: datosFactura) {
     const estado = {
       terminado: f.terminado,
       pago: f.pago
     };
     localStorage.setItem(`factura_${f.id}`, JSON.stringify(estado));
+  }
+
+  // Método helper para sumar todos los total_mayor de una factura
+  calcularPrecioFinal(f: datosFactura): number {
+    let sumaTotal = Number(f.total_mayor) || 0;
+
+    if (f.detallesOpcionales) {
+      const subFacturas: (datosFactura2 | null)[] = [
+        f.detallesOpcionales.factura2,
+        f.detallesOpcionales.factura3,
+        f.detallesOpcionales.factura4,
+        f.detallesOpcionales.factura5,
+        f.detallesOpcionales.factura6,
+        f.detallesOpcionales.factura7,
+        f.detallesOpcionales.factura8,
+        f.detallesOpcionales.factura9
+      ];
+
+      for (const item of subFacturas) {
+        if (item && item.total_mayor) {
+          sumaTotal += Number(item.total_mayor);
+        }
+      }
+    }
+
+    return sumaTotal;
   }
 
   actualizarFactura(facturaAEditar: datosFactura) {
@@ -174,8 +198,7 @@ export class CalendarioDiasFacturasComponent implements OnInit {
 
     this.http.put(urlAPI, body).subscribe({
       next: (res: any) => {
-        console.log('Sincronizado con TiDB:', res.message);
-        alert(`¡Factura N° ${facturaAEditar.numero} guardada con éxito en la base de datos!`);
+        alert(`¡Factura N° ${facturaAEditar.numero} guardada con éxito!`);
         this.cargarDatosDelDia(); 
       },
       error: (err) => {
@@ -185,29 +208,22 @@ export class CalendarioDiasFacturasComponent implements OnInit {
     });
   }
 
-  // MÉTODO CORREGIDO
   eliminarFactura(id: number): void {
     const confirmar = confirm('¿Estás seguro de que deseas eliminar esta factura de forma permanente?');
     
     if (confirmar) {
       this.http.delete(`${this.api}/facturas/${id}`).subscribe({
         next: () => {
-          alert('Factura de venta eliminada correctamente');
-          
-          // 1. Limpiamos el estado del LocalStorage para esta factura
+          alert('Factura eliminada correctamente');
           localStorage.removeItem(`factura_${id}`);
-          
-          // 2. CORREGIDO: Cambiado 'this.facturas' a 'this.factura' (en singular)
           this.factura = this.factura.filter(f => f.id !== id);
-          
-          // 3. Actualizamos el contador total restándole 1 de forma reactiva
           if (this.totalFacturas > 0) {
             this.totalFacturas--;
           }
         },
         error: (err) => {
           console.error('Error al intentar eliminar la factura:', err);
-          alert('No se pudo eliminar la factura. Inténtalo de nuevo.');
+          alert('No se pudo eliminar la factura.');
         }
       });
     }

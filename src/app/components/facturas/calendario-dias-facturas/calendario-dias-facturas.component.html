@@ -23,7 +23,7 @@
              FACTURA NUMERO : {{ f.numero }}
           </a>
 
-          <!-- Contenedor de Estados Persistentes en LocalStorage -->
+          <!-- Contenedor de Estados Persistentes -->
           <div class="contenedor-estados">
             <div class="item-estado">
               <span>TERMINADO</span>
@@ -40,6 +40,7 @@
             <span class="num-item">1.</span>
             <input type="number" class="input-cant" [(ngModel)]="f.cantidad" placeholder="Cant." />
             <textarea class="input-prod" [(ngModel)]="f.producto" placeholder="Descripción del producto..."></textarea>
+            <input type="number" class="input-total" [(ngModel)]="f.total_mayor" placeholder="Total" />
           </div>
 
           <!-- Factura 2 -->
@@ -48,6 +49,7 @@
               <span class="num-item">2.</span>
               <input type="number" class="input-cant" [(ngModel)]="f.detallesOpcionales!.factura2!.cantidad" placeholder="Cant." />
               <textarea class="input-prod" [(ngModel)]="f.detallesOpcionales!.factura2!.producto" placeholder="Descripción..."></textarea>
+              <input type="number" class="input-total" [(ngModel)]="f.detallesOpcionales!.factura2!.total_mayor" placeholder="Total" />
             </div>
           }
           
@@ -57,6 +59,7 @@
               <span class="num-item">3.</span>
               <input type="number" class="input-cant" [(ngModel)]="f.detallesOpcionales!.factura3!.cantidad" placeholder="Cant." />
               <textarea class="input-prod" [(ngModel)]="f.detallesOpcionales!.factura3!.producto" placeholder="Descripción..."></textarea>
+              <input type="number" class="input-total" [(ngModel)]="f.detallesOpcionales!.factura3!.total_mayor" placeholder="Total" />
             </div>
           }
 
@@ -66,6 +69,7 @@
               <span class="num-item">4.</span>
               <input type="number" class="input-cant" [(ngModel)]="f.detallesOpcionales!.factura4!.cantidad" placeholder="Cant." />
               <textarea class="input-prod" [(ngModel)]="f.detallesOpcionales!.factura4!.producto" placeholder="Descripción..."></textarea>
+              <input type="number" class="input-total" [(ngModel)]="f.detallesOpcionales!.factura4!.total_mayor" placeholder="Total" />
             </div>
           }
 
@@ -75,6 +79,7 @@
               <span class="num-item">5.</span>
               <input type="number" class="input-cant" [(ngModel)]="f.detallesOpcionales!.factura5!.cantidad" placeholder="Cant." />
               <textarea class="input-prod" [(ngModel)]="f.detallesOpcionales!.factura5!.producto" placeholder="Descripción..."></textarea>
+              <input type="number" class="input-total" [(ngModel)]="f.detallesOpcionales!.factura5!.total_mayor" placeholder="Total" />
             </div>
           }
 
@@ -84,6 +89,7 @@
               <span class="num-item">6.</span>
               <input type="number" class="input-cant" [(ngModel)]="f.detallesOpcionales!.factura6!.cantidad" placeholder="Cant." />
               <textarea class="input-prod" [(ngModel)]="f.detallesOpcionales!.factura6!.producto" placeholder="Descripción..."></textarea>
+              <input type="number" class="input-total" [(ngModel)]="f.detallesOpcionales!.factura6!.total_mayor" placeholder="Total" />
             </div>
           }
 
@@ -93,6 +99,7 @@
               <span class="num-item">7.</span>
               <input type="number" class="input-cant" [(ngModel)]="f.detallesOpcionales!.factura7!.cantidad" placeholder="Cant." />
               <textarea class="input-prod" [(ngModel)]="f.detallesOpcionales!.factura7!.producto" placeholder="Descripción..."></textarea>
+              <input type="number" class="input-total" [(ngModel)]="f.detallesOpcionales!.factura7!.total_mayor" placeholder="Total" />
             </div>
           }
 
@@ -102,6 +109,7 @@
               <span class="num-item">8.</span>
               <input type="number" class="input-cant" [(ngModel)]="f.detallesOpcionales!.factura8!.cantidad" placeholder="Cant." />
               <textarea class="input-prod" [(ngModel)]="f.detallesOpcionales!.factura8!.producto" placeholder="Descripción..."></textarea>
+              <input type="number" class="input-total" [(ngModel)]="f.detallesOpcionales!.factura8!.total_mayor" placeholder="Total" />
             </div>
           }
 
@@ -111,8 +119,15 @@
               <span class="num-item">9.</span>
               <input type="number" class="input-cant" [(ngModel)]="f.detallesOpcionales!.factura9!.cantidad" placeholder="Cant." />
               <textarea class="input-prod" [(ngModel)]="f.detallesOpcionales!.factura9!.producto" placeholder="Descripción..."></textarea>
+              <input type="number" class="input-total" [(ngModel)]="f.detallesOpcionales!.factura9!.total_mayor" placeholder="Total" />
             </div>
           }
+
+          <!-- Total general en la esquina inferior derecha -->
+          <div class="contenedor-precio-final">
+            <span>PRECIO FINAL: </span>
+            <strong>${{ calcularPrecioFinal(f) | number }}</strong>
+          </div>
         </div>
         
         <img src="factu.jpg" alt="Factura"/>
@@ -121,8 +136,8 @@
           🔄 Guardar Cambios
         </button>
         <button class="btn-eliminar" (click)="eliminarFactura(f.id)">
-                Eliminar Factura
-            </button>
+          Eliminar Factura
+        </button>
       </div>
     } @empty {
       <div class="no-facturas">

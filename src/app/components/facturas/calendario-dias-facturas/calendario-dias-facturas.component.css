@@ -100,6 +100,7 @@ body {
     accent-color: #3182ce;
 }
 
+/* CONTROLES DE ENTRADA POR FILA */
 .control-input {
     display: flex;
     align-items: flex-start; 
@@ -147,12 +148,57 @@ body {
     line-height: 1.4;
 }
 
-.input-cant:focus, .input-prod:focus {
+.input-total {
+    width: 80px;
+    height: 55px;
+    padding: 5px 8px;
+    border: 1px solid #cbd5e1;
+    border-radius: 4px;
+    font-size: 16px;
+    font-weight: 600;
+    color: #2d3748;
+    background-color: #ffffff;
+    text-align: right;
+    box-sizing: border-box;
+    margin-top: 2px;
+}
+
+.input-cant:focus, 
+.input-prod:focus, 
+.input-total:focus {
     outline: none;
     border-color: #63b3ed;
     box-shadow: 0 0 0 2px rgba(99, 179, 237, 0.15);
 }
 
+/* CONTENEDOR PRECIO FINAL (INFERIOR DERECHA) */
+.contenedor-precio-final {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    gap: 10px;
+    margin-top: 15px;
+    padding: 10px 12px;
+    background-color: #f8fafc;
+    border-top: 2px solid #e2e8f0;
+    border-radius: 6px;
+    text-align: right;
+}
+
+.contenedor-precio-final span {
+    font-size: 13px;
+    font-weight: 700;
+    color: #64748b;
+    letter-spacing: 0.5px;
+}
+
+.contenedor-precio-final strong {
+    font-size: 18px;
+    font-weight: 800;
+    color: #2e7d32;
+}
+
+/* IMAGEN Y BOTONES */
 img {
     width: 100%;
     max-width: 120px; 
@@ -190,7 +236,6 @@ img {
     transform: scale(0.98); 
 }
 
-/* ESTILOS DEL BOTÓN ELIMINAR */
 .btn-eliminar {
     margin-top: 8px;
     background-color: #e53e3e; 
@@ -229,11 +274,16 @@ img {
     border: 2px dashed #cbd5e0;
 }
 
+/* OCULTAR FLECHAS EN INPUTS NUMÉRICOS */
 .input-cant::-webkit-outer-spin-button,
-.input-cant::-webkit-inner-spin-button {
+.input-cant::-webkit-inner-spin-button,
+.input-total::-webkit-outer-spin-button,
+.input-total::-webkit-inner-spin-button {
     -webkit-appearance: none;
     margin: 0;
 }
-.input-cant {
+
+.input-cant,
+.input-total {
     -moz-appearance: textfield;
 }
