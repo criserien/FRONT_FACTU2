@@ -1,109 +1,229 @@
-body {
-    background-color: aqua;
-    width: 90vw;
-    height: 90vh;
-    display: flex;
-    justify-content: center; /* Centra horizontalmente */
-    align-items: center;     /* Centra verticalmente */
+/* Layout General */
+.contenedor-principal {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 20px;
+  background-color: #f4f6f9;
+  min-height: 100vh;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  margin-left: 15vw;
 }
 
-.contenedor-grande {
-    background-color: yellow;
-    padding: 15px;
+.factura-card {
+  background: #ffffff;
+  width: 100%;
+  max-width: 800px;
+  border-radius: 8px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+  padding: 25px;
+  border: 1px solid #e0e0e0;
 }
 
-.contenedor {
-    background-color: violet;
-    display: flex;
-    flex-direction: column;
+/* Inputs compartidos */
+input {
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  padding: 6px 10px;
+  font-size: 14px;
+  outline: none;
+  transition: border-color 0.2s ease;
+  width: 100%;
+  box-sizing: border-box;
 }
 
-.fecha {
-    background-color: red;
-    width: 38vw;
-    display: flex;
-    justify-content: space-between;
-    padding: 10px;
+input:focus {
+  border-color: #007bff;
+  box-shadow: 0 0 4px rgba(0, 123, 255, 0.25);
 }
 
-.fecha-numero {
-    display: flex;
-    align-items: center;
-    background-color: cyan;
-    width: 10vw;
-    text-align: center;
+.input-readonly {
+  background-color: #f8f9fa;
+  font-weight: bold;
+  color: #333;
 }
 
-.fecha-caja1{
-    display: flex;
-    background-color: orange;
-    width: 10vw;
-    justify-content: center;
+/* Encabezado */
+.encabezado {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+  border-bottom: 2px solid #007bff;
+  padding-bottom: 15px;
 }
 
-.fecha-caja1-datos {
-    background-color: chartreuse;
-    flex: 1;
-    text-align: center;
-    padding: 5px;
+.numero-factura label {
+  font-weight: bold;
+  font-size: 16px;
+  color: #007bff;
+  display: block;
+  margin-bottom: 4px;
 }
 
-.fecha-caja2{
-    display: flex;
-    background-color: pink;
-    width: 10vw;
+.numero-factura input {
+  font-size: 18px;
+  font-weight: bold;
+  width: 160px;
+  text-align: center;
 }
 
-.datos {
-    background-color: green;
-    width: 38vw;
-    margin-top: 10px;
+.fecha-box {
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  overflow: hidden;
 }
 
-.datos div {
-    padding: 10px;
+.fecha-titulos {
+  display: flex;
+  background-color: #f0f0f0;
+  font-size: 11px;
+  font-weight: bold;
+  text-align: center;
+  border-bottom: 1px solid #ccc;
 }
 
-.detalles {
-    background-color:aqua;
-    height: 55vh;
-    width: 38vw;
-    margin-top: 10px;
+.fecha-titulos span {
+  flex: 1;
+  padding: 4px;
 }
 
-.bloque-central {
-    display: flex;
+.fecha-inputs {
+  display: flex;
 }
 
-.hijo-bloque-central {
-    flex: 1;
-    text-align: center;
-    padding: 10px;
+.fecha-inputs input {
+  border: none;
+  border-right: 1px solid #ccc;
+  border-radius: 0;
+  text-align: center;
+  width: 50px;
+  padding: 4px;
 }
 
-.hijo-bloque-central-cantidad {
-    flex: none;
-    width: 5vw;
+.fecha-inputs input:last-child {
+  border-right: none;
+  width: 65px;
 }
 
-.hijo-bloque-central-valor-total {
-    flex: none;
-    width: 10vw;
+/* Sección Cliente */
+.seccion-cliente {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-bottom: 20px;
+  background: #fafafa;
+  padding: 12px;
+  border-radius: 6px;
 }
 
-.celdas {
-    margin-top: 10px;
-    border: 1px solid black;
+.campo-cliente {
+  display: flex;
+  align-items: center;
+  gap: 10px;
 }
 
-.bloque-final {
-    display: flex;
-    justify-content: space-between;
-    margin-right: 10px;
-    margin-left: 10px;
-    border: 1px solid black;
+.campo-cliente label {
+  font-weight: bold;
+  font-size: 13px;
+  width: 90px;
+  color: #555;
 }
 
-.bloque-final-hijo {
-    margin: 5px;
+/* Tabla de Detalles */
+.tabla-detalles {
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  overflow: hidden;
+  margin-bottom: 20px;
+}
+
+.tabla-header {
+  display: flex;
+  background-color: #007bff;
+  color: white;
+  font-weight: bold;
+  font-size: 12px;
+  text-align: center;
+  padding: 8px 0;
+}
+
+.tabla-fila {
+  display: flex;
+  border-bottom: 1px solid #eee;
+}
+
+.tabla-fila:last-child {
+  border-bottom: none;
+}
+
+.col-cant { width: 12%; padding: 4px; }
+.col-desc { width: 52%; padding: 4px; }
+.col-unit { width: 18%; padding: 4px; }
+.col-total { width: 18%; padding: 4px; }
+
+.tabla-fila input {
+  border: 1px solid transparent;
+}
+
+.tabla-fila input:hover,
+.tabla-fila input:focus {
+  border-color: #007bff;
+}
+
+/* Pie de Factura */
+.pie-factura {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: #f8f9fa;
+  padding: 15px;
+  border-radius: 6px;
+  border: 1px solid #ddd;
+}
+
+.recibi-box {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  width: 50%;
+}
+
+.recibi-box label {
+  font-size: 12px;
+  font-weight: bold;
+  color: #555;
+}
+
+.total-box {
+  text-align: right;
+  font-size: 16px;
+}
+
+.monto-total {
+  font-size: 20px;
+  color: #28a745;
+  margin-left: 10px;
+}
+
+/* Botón Guardar */
+.acciones {
+  margin-top: 20px;
+  text-align: right;
+}
+
+.btn-guardar {
+  background-color: #28a745;
+  color: white;
+  border: none;
+  padding: 12px 24px;
+  font-size: 16px;
+  font-weight: bold;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.btn-guardar:hover {
+  background-color: #218838;
 }

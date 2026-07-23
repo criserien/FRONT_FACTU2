@@ -16,6 +16,8 @@
 }
 
 .centro {
+    display: flex;
+    justify-content: center;
     background-color: #011a20;
     margin-top: 10px;
     margin-left: 10px;

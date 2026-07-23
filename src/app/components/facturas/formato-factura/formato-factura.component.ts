@@ -1,244 +1,152 @@
-import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
+import { FormsModule } from '@angular/forms';
+import { CommonModule } from '@angular/common';
 
-interface datosFactura {
-  id: number;
-  producto: string;
+export interface FilaItem {
   cantidad: number;
-  total: number;
-  numero: number;
-  dia: number;
-  mes: number;
-  anio: number;
-  cliente: string;
-  direc_tel: string;
-  total_mayor: number;
-}
-
-interface datosFactura2 {
-  id: number;
   producto: string;
-  cantidad: number;
-  total: number;
-  total_mayor: number;
+  total: number;       // Valor unitario
+  total_mayor: number; // Valor total de la fila (cantidad * total)
 }
 
 @Component({
   selector: 'app-formato-factura',
   templateUrl: './formato-factura.component.html',
-  styleUrls: ['./formato-factura.component.css']
+  styleUrls: ['./formato-factura.component.css'],
+  standalone: true,
+  imports: [FormsModule, CommonModule]
 })
 export class FormatoFacturaComponent implements OnInit {
 
-  anioRecibido: any;
-  mesRecibido: any;
-  diaRecibido: any;
-  numeroFactura: any;
-  cliente: any;
-  direcTel: any;
-  cantidad: any;
-  producto: any;
-  total: any;
-  total_mayor: any;
-  id: any;
+  // Encabezado
+  numeroFactura: number = 0;
+  diaRecibido: number = new Date().getDate();
+  mesRecibido: number = new Date().getMonth() + 1;
+  anioRecibido: number = new Date().getFullYear();
+  cliente: string = '';
+  direcTel: string = '';
+  id: number | null = null;
 
-  public factura!: datosFactura;
+  // Arreglo fijo de 9 filas para la estructura del formato
+  filas: FilaItem[] = Array.from({ length: 9 }, () => ({
+    cantidad: 0,
+    producto: '',
+    total: 0,
+    total_mayor: 0
+  }));
 
-  public factura2!: datosFactura2;
-  public factura3!: datosFactura2;
-  public factura4!: datosFactura2;
-  public factura5!: datosFactura2;
-  public factura6!: datosFactura2;
-  public factura7!: datosFactura2;
-  public factura8!: datosFactura2;
-  public factura9!: datosFactura2;
-
-  private api = 'https://prueba1-eight-rho.vercel.app/api';
+  // URL del backend (Asegúrate de apuntar a la URL base de tu backend)
+  private api = 'https://back-factu-2.vercel.app'; 
 
   constructor(
     private http: HttpClient,
     private router: Router
   ) {
-
     const navegacion = this.router.getCurrentNavigation();
 
     if (navegacion?.extras.state) {
+      const state = navegacion.extras.state;
+      this.anioRecibido = state['anio'] || this.anioRecibido;
+      this.mesRecibido = state['mes'] || this.mesRecibido;
+      this.diaRecibido = state['dia'] || this.diaRecibido;
+      this.numeroFactura = state['numFac'] || 0;
+      this.cliente = state['client'] || '';
+      this.direcTel = state['direcTel'] || '';
+      this.id = state['id'] || null;
 
-      this.anioRecibido = navegacion.extras.state['anio'];
-      this.mesRecibido = navegacion.extras.state['mes'];
-      this.diaRecibido = navegacion.extras.state['dia'];
-      this.numeroFactura = navegacion.extras.state['numFac'];
-      this.cliente = navegacion.extras.state['client'];
-      this.direcTel = navegacion.extras.state['direcTel'];
-      this.cantidad = navegacion.extras.state['cantidad'];
-      this.producto = navegacion.extras.state['producto'];
-      this.total = navegacion.extras.state['total'];
-      this.total_mayor = navegacion.extras.state['total_mayor'];
-      this.id = navegacion.extras.state['id'];
+      // Fila 1 inicial si proviene de la navegación
+      if (state['producto']) {
+        this.filas[0] = {
+          cantidad: Number(state['cantidad']) || 0,
+          producto: state['producto'] || '',
+          total: Number(state['total']) || 0,
+          total_mayor: Number(state['total_mayor']) || 0
+        };
+      }
     }
   }
 
   ngOnInit(): void {
-
-    console.log(this.factura2)
-
     if (this.id) {
-
-      console.log(this.factura)
-      this.obtenerFactura2();
-      this.obtenerFactura3();
-      this.obtenerFactura4();
-      this.obtenerFactura5();
-      this.obtenerFactura6();
-      this.obtenerFactura7();
-      this.obtenerFactura8();
-      this.obtenerFactura9();
+      this.cargarDetallesOpcionales();
     }
   }
 
-  obtenerFactura2() {
-
-    this.http.get<datosFactura2>(`${this.api}/facturas2/${this.id}`)
+  // Carga opcional si viene de una factura guardada
+  cargarDetallesOpcionales() {
+    this.http.get<any>(`${this.api}/api/facturas-fecha-db2/${this.diaRecibido}/${this.mesRecibido}/${this.anioRecibido}`)
       .subscribe({
-
-        next: (res) => {
-          this.factura2 = res;
+        next: (facturas) => {
+          const encontrada = facturas.find((f: any) => f.id === this.id);
+          if (encontrada && encontrada.detallesOpcionales) {
+            for (let i = 2; i <= 9; i++) {
+              const sub = encontrada.detallesOpcionales[`factura${i}`];
+              if (sub) {
+                this.filas[i - 1] = {
+                  cantidad: sub.cantidad || 0,
+                  producto: sub.producto || '',
+                  total: sub.total || 0,
+                  total_mayor: sub.total_mayor || 0
+                };
+              }
+            }
+          }
         },
-
-        error: (err) => {
-          console.error('Error en factura 2', err);
-        }
+        error: (err) => console.error('Error al cargar la factura:', err)
       });
   }
 
-  obtenerFactura3() {
-
-    this.http.get<datosFactura2>(`${this.api}/facturas3/${this.id}`)
-      .subscribe({
-
-        next: (res) => {
-          this.factura3 = res;
-        },
-
-        error: (err) => {
-          console.error('Error en factura 3', err);
-        }
-      });
+  // Recalcula el total de la fila cuando cambian cantidad o valor unitario
+  actualizarFila(index: number) {
+    const fila = this.filas[index];
+    const cant = Number(fila.cantidad) || 0;
+    const unitario = Number(fila.total) || 0;
+    fila.total_mayor = cant * unitario;
   }
 
-  obtenerFactura4() {
-
-    this.http.get<datosFactura2>(`${this.api}/facturas4/${this.id}`)
-      .subscribe({
-
-        next: (res) => {
-          this.factura4 = res;
-        },
-
-        error: (err) => {
-          console.error('Error en factura 4', err);
-        }
-      });
-  }
-
-  obtenerFactura5() {
-
-    this.http.get<datosFactura2>(`${this.api}/facturas5/${this.id}`)
-      .subscribe({
-
-        next: (res) => {
-          this.factura5 = res;
-        },
-
-        error: (err) => {
-          console.error('Error en factura 5', err);
-        }
-      });
-  }
-
-  obtenerFactura6() {
-
-    this.http.get<datosFactura2>(`${this.api}/facturas6/${this.id}`)
-      .subscribe({
-
-        next: (res) => {
-          this.factura6 = res;
-        },
-
-        error: (err) => {
-          console.error('Error en factura 6', err);
-        }
-      });
-  }
-
-  obtenerFactura7() {
-
-    this.http.get<datosFactura2>(`${this.api}/facturas7/${this.id}`)
-      .subscribe({
-
-        next: (res) => {
-          this.factura7 = res;
-        },
-
-        error: (err) => {
-          console.error('Error en factura 7', err);
-        }
-      });
-  }
-
-  obtenerFactura8() {
-
-    this.http.get<datosFactura2>(`${this.api}/facturas8/${this.id}`)
-      .subscribe({
-
-        next: (res) => {
-          this.factura8 = res;
-        },
-
-        error: (err) => {
-          console.error('Error en factura 8', err);
-        }
-      });
-  }
-
-  obtenerFactura9() {
-
-    this.http.get<datosFactura2>(`${this.api}/facturas9/${this.id}`)
-      .subscribe({
-
-        next: (res) => {
-          this.factura9 = res;
-        },
-
-        error: (err) => {
-          console.error('Error en factura 9', err);
-        }
-      });
-  }
-
+  // Suma total de todas las filas
   calcularTotalGeneral(): number {
+    return this.filas.reduce((acc, fila) => acc + (Number(fila.total_mayor) || 0), 0);
+  }
 
-    let suma = Number(this.total_mayor) || 0;
+  // Envía los datos con POST /factura
+  guardarFactura() {
+    const body: any = {
+      // Fila 1 (Principal)
+      producto: this.filas[0].producto,
+      cantidad: this.filas[0].cantidad,
+      total: this.filas[0].total,
+      total_mayor: this.filas[0].total_mayor,
+      
+      // Datos Generales
+      numero: this.numeroFactura,
+      dia: this.diaRecibido,
+      mes: this.mesRecibido,
+      anio: this.anioRecibido,
+      cliente: this.cliente,
+      direc_tel: this.direcTel
+    };
 
-    const facturas = [
-      this.factura2,
-      this.factura3,
-      this.factura4,
-      this.factura5,
-      this.factura6,
-      this.factura7,
-      this.factura8,
-      this.factura9
-    ];
+    // Mapeo dinámico para las filas 2 a 9 (producto2, cantidad2, total2, total_mayor2, etc.)
+    for (let i = 2; i <= 9; i++) {
+      const item = this.filas[i - 1];
+      body[`producto${i}`] = item.producto || null;
+      body[`cantidad${i}`] = item.cantidad || 0;
+      body[`total${i}`] = item.total || 0;
+      body[`total_mayor${i}`] = item.total_mayor || 0;
+    }
 
-    facturas.forEach(f => {
-
-      if (f) {
-        suma += Number(f.total_mayor) || 0;
+    this.http.post(`${this.api}/factura`, body).subscribe({
+      next: (res: any) => {
+        alert('¡Factura guardada exitosamente en BD1 y BD2!');
+        console.log('Respuesta del servidor:', res);
+      },
+      error: (err) => {
+        console.error('Error al guardar la factura:', err);
+        alert('Ocurrió un error al intentar guardar la factura.');
       }
     });
-
-    return suma;
   }
 }

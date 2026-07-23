@@ -1,93 +1,85 @@
-<body>
-<div class="contenedor-grande">
-  <div class="contenedor">
-    <div class="fecha">
-      <div class="fecha-numero">
-        <div>FACTURA NUMERO : {{ numeroFactura }}</div>
-      </div>
-      <div class="fecha-cajas">
-        <div class="fecha-caja1">
-          <div class="fecha-caja1-datos">DIA</div>
-          <div class="fecha-caja1-datos">MES</div>
-          <div class="fecha-caja1-datos">AÑO</div>
-        </div>
-        <div class="fecha-caja2">
-          <div class="fecha-caja1-datos">{{ diaRecibido }}</div>
-          <div class="fecha-caja1-datos">{{ mesRecibido }}</div>
-          <div class="fecha-caja1-datos">{{ anioRecibido }}</div>
-        </div>
-      </div>
-    </div>
+<div class="contenedor-principal">
+  <div class="factura-card">
     
-    <div class="datos">
-      <div>CLIENTE : {{ cliente }}</div>
-      <div>DIRECCION/TELEFONO : {{ direcTel }}</div>
-    </div>
-
-    <div class="detalles">
-      <div class="bloque-central">
-        <!-- Columna Cantidad -->
-        <div class="bloque-central-cantidad hijo-bloque-central hijo-bloque-central-cantidad">
-          <div>CANT</div>
-          <div class="celdas">{{ cantidad }}</div>
-          <div class="celdas">{{ factura2.cantidad }}</div>
-          <div class="celdas">{{ factura3.cantidad || 0 }}</div>
-          <div class="celdas">{{ factura4.cantidad || 0 }}</div>
-          <div class="celdas">{{ factura5.cantidad || 0 }}</div>
-          <div class="celdas">{{ factura6.cantidad || 0 }}</div>
-          <div class="celdas">{{ factura7.cantidad || 0 }}</div>
-          <div class="celdas">{{ factura8.cantidad || 0 }}</div>
-          <div class="celdas">{{ factura9.cantidad || 0 }}</div>
-        </div>
-
-        <!-- Columna Descripcion -->
-        <div class="bloque-central-descripcion hijo-bloque-central">
-          <div>DESCRIPCION</div>
-          <div class="celdas">{{ producto }}</div>
-          <div class="celdas">{{ factura2.producto || '-' }}</div>
-          <div class="celdas">{{ factura3.producto || '-' }}</div>
-          <div class="celdas">{{ factura4.producto || '-' }}</div>
-          <div class="celdas">{{ factura5.producto || '-' }}</div>
-          <div class="celdas">{{ factura6.producto || '-' }}</div>
-          <div class="celdas">{{ factura7.producto || '-' }}</div>
-          <div class="celdas">{{ factura8.producto || '-' }}</div>
-          <div class="celdas">{{ factura9.producto || '-' }}</div>
-        </div>
-
-        <!-- Columna Valor Unitario -->
-        <div class="bloque-central-valor-unitario hijo-bloque-central">
-          <div>VALOR UNITARIO</div>
-          <div class="celdas">{{ total }}</div>
-          <div class="celdas">{{ factura2.total || 0 }}</div>
-          <div class="celdas">{{ factura3.total || 0 }}</div>
-          <div class="celdas">{{ factura4.total || 0 }}</div>
-          <div class="celdas">{{ factura5.total || 0 }}</div>
-          <div class="celdas">{{ factura6.total || 0 }}</div>
-          <div class="celdas">{{ factura7.total || 0 }}</div>
-          <div class="celdas">{{ factura8.total || 0 }}</div>
-          <div class="celdas">{{ factura9.total || 0 }}</div>
-        </div>
-
-        <!-- Columna Valor Total -->
-        <div class="bloque-central-valor-total hijo-bloque-central hijo-bloque-central-valor-total">
-          <div>VALOR TOTAL</div>
-          <div class="celdas">{{ total_mayor }}</div>
-          <div class="celdas">{{ factura2.total_mayor || 0 }}</div>
-          <div class="celdas">{{ factura3.total_mayor || 0 }}</div>
-          <div class="celdas">{{ factura4.total_mayor || 0 }}</div>
-          <div class="celdas">{{ factura5.total_mayor || 0 }}</div>
-          <div class="celdas">{{ factura6.total_mayor || 0 }}</div>
-          <div class="celdas">{{ factura7.total_mayor || 0 }}</div>
-          <div class="celdas">{{ factura8.total_mayor || 0 }}</div>
-          <div class="celdas">{{ factura9.total_mayor || 0 }}</div>
-        </div>
+    <!-- Encabezado: Fecha y Número -->
+    <div class="encabezado">
+      <div class="numero-factura">
+        <label>FACTURA N°</label>
+        <input type="number" [(ngModel)]="numeroFactura" placeholder="001" />
       </div>
 
-      <div class="bloque-final">
-        <div class="bloque-final-hijo">RECIBI</div>
-        <div class="bloque-final-hijo">TOTAL : {{ calcularTotalGeneral() }}</div>
+      <div class="fecha-box">
+        <div class="fecha-titulos">
+          <span>DÍA</span>
+          <span>MES</span>
+          <span>AÑO</span>
+        </div>
+        <div class="fecha-inputs">
+          <input type="number" [(ngModel)]="diaRecibido" min="1" max="31" />
+          <input type="number" [(ngModel)]="mesRecibido" min="1" max="12" />
+          <input type="number" [(ngModel)]="anioRecibido" />
+        </div>
       </div>
     </div>
+
+    <!-- Datos del Cliente -->
+    <div class="seccion-cliente">
+      <div class="campo-cliente">
+        <label>CLIENTE:</label>
+        <input type="text" [(ngModel)]="cliente" placeholder="Nombre completo del cliente" />
+      </div>
+      <div class="campo-cliente">
+        <label>DIR / TEL:</label>
+        <input type="text" [(ngModel)]="direcTel" placeholder="Dirección o teléfono" />
+      </div>
+    </div>
+
+    <!-- Tabla de Detalles (Filas editables) -->
+    <div class="tabla-detalles">
+      <div class="tabla-header">
+        <div class="col-cant">CANT.</div>
+        <div class="col-desc">DESCRIPCIÓN</div>
+        <div class="col-unit">VALOR UNIT.</div>
+        <div class="col-total">VALOR TOTAL</div>
+      </div>
+
+      <div class="tabla-body">
+        <div class="tabla-fila" *ngFor="let item of filas; let i = index">
+          <div class="col-cant">
+            <input type="number" [(ngModel)]="item.cantidad" (ngModelChange)="actualizarFila(i)" min="0" />
+          </div>
+          <div class="col-desc">
+            <input type="text" [(ngModel)]="item.producto" placeholder="Descripción del producto..." />
+          </div>
+          <div class="col-unit">
+            <input type="number" [(ngModel)]="item.total" (ngModelChange)="actualizarFila(i)" min="0" />
+          </div>
+          <div class="col-total">
+            <input type="number" [value]="item.total_mayor" readonly class="input-readonly" />
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Pie de Factura y Total -->
+    <div class="pie-factura">
+      <div class="recibi-box">
+        <label>RECIBÍ CONFORME:</label>
+        <input type="text" placeholder="Firma o aclaración" />
+      </div>
+
+      <div class="total-box">
+        <span>TOTAL GENERAL:</span>
+        <strong class="monto-total">$ {{ calcularTotalGeneral() | number }}</strong>
+      </div>
+    </div>
+
+    <!-- Botón de Envío -->
+    <div class="acciones">
+      <button class="btn-guardar" (click)="guardarFactura()">
+        💾 Guardar / Enviar a BD1 & BD2
+      </button>
+    </div>
+
   </div>
 </div>
-</body>
