@@ -145,4 +145,18 @@
       </div>
     }
   </div>
+
+  <!-- 🆕 RECUADRO DE SUMA TOTAL GENERAL -->
+  @if (factura.length > 0) {
+    <div class="recuadro-total-general">
+      <div class="total-icono">💰</div>
+      <div class="total-info">
+        <span class="total-etiqueta">TOTAL GENERAL DEL DÍA</span>
+        <span class="total-subtexto">Suma de las {{ factura.length }} factura(s) — Día {{diaRecibido}}/{{mesRecibido}}/{{anioRecibido}}</span>
+      </div>
+      <div class="total-valor">
+        ${{ sumaTotalGeneral | number }}
+      </div>
+    </div>
+  }
 </body>

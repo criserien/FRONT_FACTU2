@@ -2,8 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Router, RouterLink } from '@angular/router';
 import { FormsModule } from '@angular/forms'; 
-import { CommonModule } from '@angular/common'; // 1. Importar CommonModule
-
+import { CommonModule } from '@angular/common';
 
 export interface datosFactura2 {
   id: number;
@@ -49,7 +48,7 @@ interface RespuestaConteo {
   templateUrl: './calendario-dias-facturas2.component.html',
   styleUrls: ['./calendario-dias-facturas2.component.css'],
   standalone: true,
-  imports: [RouterLink, FormsModule, CommonModule] // 2. Agregar CommonModule a los imports
+  imports: [RouterLink, FormsModule, CommonModule]
 })
 export class CalendarioDiasFacturas2Component implements OnInit {
 
@@ -133,31 +132,35 @@ export class CalendarioDiasFacturas2Component implements OnInit {
   }
 
   // Método helper para sumar todos los total_mayor de una factura
-    calcularPrecioFinal(f: datosFactura): number {
-      let sumaTotal = Number(f.total_mayor) || 0;
-  
-      if (f.detallesOpcionales) {
-        const subFacturas: (datosFactura2 | null)[] = [
-          f.detallesOpcionales.factura2,
-          f.detallesOpcionales.factura3,
-          f.detallesOpcionales.factura4,
-          f.detallesOpcionales.factura5,
-          f.detallesOpcionales.factura6,
-          f.detallesOpcionales.factura7,
-          f.detallesOpcionales.factura8,
-          f.detallesOpcionales.factura9
-        ];
-  
-        for (const item of subFacturas) {
-          if (item && item.total_mayor) {
-            sumaTotal += Number(item.total_mayor);
-          }
+  calcularPrecioFinal(f: datosFactura): number {
+    let sumaTotal = Number(f.total_mayor) || 0;
+
+    if (f.detallesOpcionales) {
+      const subFacturas: (datosFactura2 | null)[] = [
+        f.detallesOpcionales.factura2,
+        f.detallesOpcionales.factura3,
+        f.detallesOpcionales.factura4,
+        f.detallesOpcionales.factura5,
+        f.detallesOpcionales.factura6,
+        f.detallesOpcionales.factura7,
+        f.detallesOpcionales.factura8,
+        f.detallesOpcionales.factura9
+      ];
+
+      for (const item of subFacturas) {
+        if (item && item.total_mayor) {
+          sumaTotal += Number(item.total_mayor);
         }
       }
-  
-      return sumaTotal;
     }
-  
+
+    return sumaTotal;
+  }
+
+  // 🆕 GETTER: Suma total general de TODAS las facturas del día
+  get sumaTotalGeneral(): number {
+    return this.factura.reduce((acumulado, f) => acumulado + this.calcularPrecioFinal(f), 0);
+  }
 
   // PUT: Actualiza la información únicamente en BD2
   actualizarFactura(facturaAEditar: datosFactura) {

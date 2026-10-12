@@ -21,13 +21,16 @@ export interface FilaItem {
 export class FormatoFacturaComponent implements OnInit {
 
   // Encabezado
-  numeroFactura: number = 0;
+  numeroFactura: number = 1;
   diaRecibido: number = new Date().getDate();
   mesRecibido: number = new Date().getMonth() + 1;
   anioRecibido: number = new Date().getFullYear();
   cliente: string = '';
   direcTel: string = '';
   id: number | null = null;
+
+  // Bandera: ¿venimos de una navegación con número fijo?
+  private vieneDeNavegacion: boolean = false;
 
   // Arreglo fijo de 9 filas para la estructura del formato
   filas: FilaItem[] = Array.from({ length: 9 }, () => ({
@@ -37,8 +40,8 @@ export class FormatoFacturaComponent implements OnInit {
     total_mayor: 0
   }));
 
-  // URL del backend (Asegúrate de apuntar a la URL base de tu backend)
-  private api = 'https://back-factu-2.vercel.app'; 
+  // URL del backend
+  private api = 'https://back-factu-2.vercel.app';
 
   constructor(
     private http: HttpClient,
@@ -51,10 +54,15 @@ export class FormatoFacturaComponent implements OnInit {
       this.anioRecibido = state['anio'] || this.anioRecibido;
       this.mesRecibido = state['mes'] || this.mesRecibido;
       this.diaRecibido = state['dia'] || this.diaRecibido;
-      this.numeroFactura = state['numFac'] || 0;
       this.cliente = state['client'] || '';
       this.direcTel = state['direcTel'] || '';
       this.id = state['id'] || null;
+
+      // Si viene número explícito desde la navegación, lo respetamos y NO consultamos al backend
+      if (state['numFac']) {
+        this.numeroFactura = Number(state['numFac']);
+        this.vieneDeNavegacion = true;
+      }
 
       // Fila 1 inicial si proviene de la navegación
       if (state['producto']) {
@@ -69,9 +77,31 @@ export class FormatoFacturaComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    // Solo consultamos al backend si NO vinimos con un número fijo por navegación
+    if (!this.vieneDeNavegacion) {
+      this.obtenerUltimoNumero();
+    }
+
     if (this.id) {
       this.cargarDetallesOpcionales();
     }
+  }
+
+  // Consulta el último número de factura al backend y calcula el siguiente
+  private obtenerUltimoNumero(): void {
+    this.http.get<{ ultimo: number; numero?: number; ultimoNumero?: number }>(
+      `${this.api}/api/ultima-factura`
+    ).subscribe({
+      next: (res) => {
+        // Aceptamos cualquiera de los 3 alias por compatibilidad
+        const ultimo = Number(res?.ultimo ?? res?.numero ?? res?.ultimoNumero ?? 0);
+        this.numeroFactura = (isNaN(ultimo) ? 0 : ultimo) + 1;
+      },
+      error: (err) => {
+        console.warn('No se pudo obtener el último número del backend, se usa 1 por defecto.', err);
+        this.numeroFactura = 1;
+      }
+    });
   }
 
   // Carga opcional si viene de una factura guardada
@@ -119,7 +149,7 @@ export class FormatoFacturaComponent implements OnInit {
       cantidad: this.filas[0].cantidad,
       total: this.filas[0].total,
       total_mayor: this.filas[0].total_mayor,
-      
+
       // Datos Generales
       numero: this.numeroFactura,
       dia: this.diaRecibido,
@@ -129,7 +159,7 @@ export class FormatoFacturaComponent implements OnInit {
       direc_tel: this.direcTel
     };
 
-    // Mapeo dinámico para las filas 2 a 9 (producto2, cantidad2, total2, total_mayor2, etc.)
+    // Mapeo dinámico para las filas 2 a 9
     for (let i = 2; i <= 9; i++) {
       const item = this.filas[i - 1];
       body[`producto${i}`] = item.producto || null;
@@ -142,6 +172,10 @@ export class FormatoFacturaComponent implements OnInit {
       next: (res: any) => {
         alert('¡Factura guardada exitosamente en BD1 y BD2!');
         console.log('Respuesta del servidor:', res);
+
+        // Incrementa localmente y también sincroniza con el backend
+        this.numeroFactura = Number(this.numeroFactura) + 1;
+        this.obtenerUltimoNumero();
       },
       error: (err) => {
         console.error('Error al guardar la factura:', err);
