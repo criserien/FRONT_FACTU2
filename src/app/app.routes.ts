@@ -6,6 +6,7 @@ import { CalendarioDiasComponent } from './components/facturas/calendario-dias/c
 import { CalendarioDiasFacturasComponent } from './components/facturas/calendario-dias-facturas/calendario-dias-facturas.component';
 import { FormatoFacturaComponent } from './components/facturas/formato-factura/formato-factura.component';
 import { CalendarioDiasFacturas2Component } from './components/facturas/calendario-dias-facturas2/calendario-dias-facturas2.component';
+import { CalendarioDiasFacturas3Component } from './components/facturas/calendario-dias-facturas3/calendario-dias-facturas3.component';
 
 export const routes: Routes = [
     {
@@ -31,6 +32,10 @@ export const routes: Routes = [
     {
         path : 'calendario-dias-facturas2',
         component : CalendarioDiasFacturas2Component
+    },
+    {
+        path : 'calendario-dias-facturas3',
+        component : CalendarioDiasFacturas3Component
     },
     {
         path : 'formato-factura',
