@@ -20,17 +20,14 @@
                id: f.id,
                detallesOpcionales: f.detallesOpcionales
              }">
-             FACTURA NUMERO : {{ f.numero }}
+             FACTURA NUMERO : {{ f.numero }} <br>
+             MESA NUMERO : {{ f.cliente }}
           </a>
 
           <!-- Contenedor de Estados Persistentes -->
           <div class="contenedor-estados">
             <div class="item-estado">
-              <span>TERMINADO</span>
-              <input type="checkbox" [(ngModel)]="f.terminado" (change)="guardarEstadoLocal(f)" />
-            </div>
-            <div class="item-estado">
-              <span>PAGO</span>
+              <span>PAGO TRANSFERENCIA</span>
               <input type="checkbox" [(ngModel)]="f.pago" (change)="guardarEstadoLocal(f)" />
             </div>
           </div>
